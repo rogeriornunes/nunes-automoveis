@@ -30,11 +30,12 @@ public class VeiculoServiceImpl implements VeiculoService {
 	@Override
 	public List<VeiculoDto> findAll(String marcar, long ano, String cor) {
 		List<Veiculo> veiculos = veiculoRepository.findAll();
-		return VeiculoConverter.convertListToDto(filtrar(marcar, veiculos));
+		return VeiculoConverter.convertListToDto(filtrar(marcar, ano, cor, veiculos));
 	}
 
-	private List<Veiculo> filtrar(String marcar, List<Veiculo> veiculos) {
-		return veiculos.stream().filter(filter -> filter.getMarca().equals(marcar))
+	private List<Veiculo> filtrar(String marcar, long ano, String cor, List<Veiculo> veiculos) {
+		return veiculos.stream().filter(filter -> filter.getMarca().equalsIgnoreCase(marcar)
+						&& filter.getAno() == ano && filter.getCor().equalsIgnoreCase(cor))
 						.collect(Collectors.toList());
 	}
 
